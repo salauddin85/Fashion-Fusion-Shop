@@ -5,14 +5,21 @@ from .serialaizers import WishlistSerializer,ReviewSerializer,ProductSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
-from rest_framework import status
+from rest_framework import status,pagination
 from .constraints import SIZE
 from rest_framework.views import APIView
+
+
+class ProductPagination(pagination.PageNumberPagination):
+    page_size = 2 # items per page
+    page_size_query_param = page_size
+    max_page_size = 100
 
 class ProductViewset(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class=ProductPagination
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -49,7 +56,7 @@ class ProductViewset(viewsets.ModelViewSet):
 
     
 
-# clas
+
 
 class WishlistViewset(viewsets.ModelViewSet):
     queryset = Wishlist.objects.all()
