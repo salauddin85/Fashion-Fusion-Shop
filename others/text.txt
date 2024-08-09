@@ -1,0 +1,20 @@
+1.For Authentication
+http://127.0.0.1:8000/auth/register/
+http://127.0.0.1:8000/auth/login/
+
+2.For Product releted
+All Product: http://127.0.0.1:8000/products/product/
+
+Sort by price asc : http://127.0.0.1:8000/products/product/sorted_by_price/?order=asc
+Sort by price desc : http://127.0.0.1:8000/products/product/sorted_by_price/?order=desc
+Sort by size: http://127.0.0.1:8000/products/product/sorted_by_size/M/
+
+Wishlist Add: http://127.0.0.1:8000/products/wishlist/add_product/1/
+Wishlist Remove: http://127.0.0.1:8000/products/wishlist/remove_product/1/
+
+Reviews: http://127.0.0.1:8000/products/review/
+
+3.For Purchase:
+Purchase product: http://127.0.0.1:8000/purchases/list/1
+4.For Transactions:
+deposit: http://127.0.0.1:8000/transactions/deposit/
