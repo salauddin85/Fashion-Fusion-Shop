@@ -17,7 +17,6 @@ class UserRegistrationSerialaizer(serializers.ModelSerializer):
         fields = ['username','first_name','last_name', 'password', 'email', 'confirm_password']
         extra_kwargs = {'password': {'write_only': True}}
 
-    
     def validate(self, data):
         email = data['email']
         if data['password'] != data['confirm_password']:
@@ -29,11 +28,13 @@ class UserRegistrationSerialaizer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        validated_data.pop('confirm_password')    #buji nai
+        validated_data.pop('confirm_password')
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
-            password=validated_data['password']
+            password=validated_data['password'],
+            first_name=validated_data.get('first_name'),
+            last_name=validated_data.get('last_name')
         )
         Account.objects.create(
                 user = user,
