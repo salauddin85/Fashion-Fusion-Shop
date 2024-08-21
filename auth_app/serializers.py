@@ -7,7 +7,7 @@ from rest_framework.permissions import BasePermission
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Account
+from .models import Account,ContactUs
 
 class UserRegistrationSerialaizer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
@@ -48,6 +48,27 @@ class UserRegistrationSerialaizer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(required = True)
     password = serializers.CharField(required = True)
+
+
+
+
+
+class AccountSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source='user.get_full_name', read_only=True)
+    class Meta:
+        model = Account
+        fields = ['user_name', 'account_no', 'balance', 'created_on']
+
+       
+
+
+
+
+
+class ContactUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactUs
+        fields = "__all__"
 
 
 
