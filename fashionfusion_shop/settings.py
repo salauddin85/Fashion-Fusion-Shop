@@ -22,6 +22,8 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -30,8 +32,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS = ['*']
+LOGIN_URL="http://127.0.0.1:5500/login.html"
 # ALLOWED_HOSTS = ['https://cloth-store-mym7.onrender.com', 'localhost']
 # CSRF_TRUSTED_ORIGINS = ['https://cloth-store-mym7.onrender.com']
 
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'auth_app',
@@ -62,6 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'fashionfusion_shop.urls'
@@ -88,12 +94,12 @@ WSGI_APPLICATION = 'fashionfusion_shop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # DATABASES = {
@@ -107,13 +113,13 @@ WSGI_APPLICATION = 'fashionfusion_shop.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://fashionfusion_shop_mn7y_user:7PH0VXVFFJKj2uWIPnEvko4QxDwApkho@dpg-cqqvi6o8fa8c73flvm9g-a.oregon-postgres.render.com/fashionfusion_shop_mn7y',
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://fashionfusion_shop_mn7y_user:7PH0VXVFFJKj2uWIPnEvko4QxDwApkho@dpg-cqqvi6o8fa8c73flvm9g-a.oregon-postgres.render.com/fashionfusion_shop_mn7y',
         
-    )
-}
+#     )
+# }
 
 
 # Password validation
@@ -163,10 +169,24 @@ MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-REST_FRAMEWORK = {
+
+# REST_FRAMEWORK = {
     
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-     
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+#      'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+        
+#     ],
+# }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # Other settings...
 }
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
