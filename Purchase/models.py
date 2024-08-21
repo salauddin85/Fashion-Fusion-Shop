@@ -4,6 +4,9 @@ from auth_app.models import Account
 from cloth_product.models import Product
 from Transactions.constriants import TRANSACTION_TYPE
 # Create your models here.
+
+
+
 class PurchaseModel(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
@@ -11,3 +14,8 @@ class PurchaseModel(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user.first_name} {self.user.last_name} product id: {self.product.pk}'
+    
+
+class PurchaseCartModel(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+   
