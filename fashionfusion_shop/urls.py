@@ -24,3 +24,7 @@ urlpatterns = [
  
 urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+
+
+# path("api/auth/registration/account-confirm-email/<str:key>/" , confirm_email, name="confirm_email"),
+# from allauth.account.views import confirm_email
