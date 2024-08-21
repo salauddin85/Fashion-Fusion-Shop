@@ -11,3 +11,9 @@ class Account(models.Model):
 
     def __str__(self) :
         return f"{self.user.first_name} {self.user.last_name}  {self.account_no} "
+    
+class ContactUs(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    message=models.CharField(max_length=500)
+
