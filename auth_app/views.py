@@ -11,6 +11,10 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 from cloth_product.models import Wishlist  
 from . import serializers
+from rest_framework.permissions import IsAuthenticated
+from .models import Account,ContactUs
+
+from rest_framework import viewsets
 
 class UserRegistrationApiView(APIView):
     serializers_class = serializers.UserRegistrationSerialaizer
@@ -47,7 +51,8 @@ def activate(request, token, uid64):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect("login")
+        return redirect("http://127.0.0.1:5500/login.html")
+        # return redirect("login")
 
 class UserLoginApiView(APIView):
     def post(self, request):
@@ -67,12 +72,35 @@ class UserLoginApiView(APIView):
         return Response(serializer.errors, status=400)
 
 class UserLogoutView(APIView):
-    def get(self, request):
+    def post(self, request):
         user = request.user
-        # Check if the user has an auth_token before trying to delete it
-        if hasattr(user, 'auth_token'):
-            user.auth_token.delete()
-            logout(request)
-            return redirect('login')
-        else:
-            return Response({'error': "There is no user for logout"})
+        token= Token.objects.get(user=user)
+        print(token)
+        token.delete()
+        logout(request)
+        return redirect("http://127.0.0.1:5500/login.html")
+        # return redirect("login")
+        
+
+
+# class UserLogoutView(APIView):
+#     permission_classes = [IsAuthenticated]
+#     def get(self, request):
+#         request.user.auth_token.delete()
+#         logout(request)
+#         return redirect('login')
+
+
+class AccountView(viewsets.ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = serializers.AccountSerializer
+
+
+
+
+class ContactUsView(viewsets.ModelViewSet):
+    queryset = ContactUs.objects.all()
+    serializer_class = serializers.ContactUsSerializer
+
+    
+    
